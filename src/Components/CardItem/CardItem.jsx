@@ -9,7 +9,7 @@ const CardItem = (props) => {
 
   return (
     <>
-      <div className='card' style={{ width: '18rem' }}>
+      <div className='card ' style={{ width: '18rem' }}>
         <img src={props.image || placeHolderImage} className='card-img-top' alt='' onError={handleImageError} />
         <div className='card-body'>
           <h5 className='card-title'>{props.product_name}</h5>

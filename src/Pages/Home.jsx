@@ -11,7 +11,7 @@ const Home = () => {
       fetch('https://ecommerce-json-jwt.onrender.com/items')
         .then(response => response.json())
         .then(data => {
-          console.log(data)
+          // console.log(data)
           setData(data)
           setLoading(false)
         })
