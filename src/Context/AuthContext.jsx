@@ -1,8 +1,11 @@
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 
 const AuthContext = createContext()
 
 function AuthProvider ({ children }) {
+  const [isAuth, setIsAuth] = useState(false)
+  const [userPayload, setUserPayload] = useState(null)
+
   const data = {
 
   }
