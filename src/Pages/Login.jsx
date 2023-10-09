@@ -52,7 +52,6 @@ const Login = () => {
               id='floatingPassword'
               placeholder='Password'
               {...register('password')}
-              // Min 10:23 4to video ultimo modulo
             />
             <label htmlFor='floatingPassword'>Password</label>
           </div>
