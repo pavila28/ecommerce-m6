@@ -1,8 +1,11 @@
 import { NavLink } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuthContext } from '../../Hooks/useAuthContext'
 import './header.scss'
 
 const Header = () => {
+  const { logout, isAuth } = useAuthContext()
+
   // Searchbar
   const [searchState, setSearchState] = useState('')
 
@@ -24,12 +27,23 @@ const Header = () => {
           <li className='header__list-item'>
             <NavLink className={({ isActive }) => linkIsActive(isActive)} to='/'>Home</NavLink>
           </li>
-          <li className='header__list-item'>
-            <NavLink className={({ isActive }) => linkIsActive(isActive)} to='/login'>Login</NavLink>
-          </li>
-          <li className='header__list-item'>
-            <NavLink className={({ isActive }) => linkIsActive(isActive)} to='/signup'>Signup</NavLink>
-          </li>
+
+          {isAuth
+            ? (
+              <li className='header__list-item'>
+                <NavLink className='header__item-link' onClick={logout}>Logout</NavLink>
+              </li>
+              )
+            : (
+              <>
+                <li className='header__list-item'>
+                  <NavLink className={({ isActive }) => linkIsActive(isActive)} to='/login'>Login</NavLink>
+                </li>
+                <li className='header__list-item'>
+                  <NavLink className={({ isActive }) => linkIsActive(isActive)} to='/signup'>Signup</NavLink>
+                </li>
+              </>
+              )}
         </ul>
       </nav>
     </>
