@@ -19,6 +19,12 @@ const Home = () => {
     fetchItemsData()
   }, [])
 
+  const placeHolderImage = 'https://thealmanian.com/wp-content/uploads/2019/01/product_image_thumbnail_placeholder.png'
+
+  const handleImageError = (e) => {
+    e.target.src = placeHolderImage
+  }
+
   return (
     <>
       <h1>List of items</h1>
@@ -26,7 +32,7 @@ const Home = () => {
         {/* Si itemsData no esta vacio, recorro el arreglo con Map y creo un Card de Bootstrap para cada elemento */}
         {itemsList && itemsList.map((product) => (
           <div className='card' style={{ width: '18rem' }} key={product.id}>
-            <img className='card-img-top' style={{ maxHeight: '300px' }} src={product.image} alt={product.product_name} />
+            <img className='card-img-top' style={{ maxHeight: '300px' }} src={product.image || placeHolderImage} alt={product.product_name} onError={handleImageError} />
             <div className='card-body'>
               <h5 className='card-title'>{product.product_name}</h5>
               <p className='card-text'>{product.description}</p>
