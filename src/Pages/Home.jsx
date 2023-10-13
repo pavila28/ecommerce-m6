@@ -1,47 +1,43 @@
-import CardItem from '../Components/CardItem/CardItem'
 import { useEffect, useState } from 'react'
+import { getAllItemsService } from '../Services/itemService'
 import './home.css'
 
 const Home = () => {
-  const [loading, setLoading] = useState(true)
-  const [data, setData] = useState({})
+  const [itemsList, setItemList] = useState([])
 
   useEffect(() => {
-    if (loading) {
-      fetch('https://ecommerce-json-jwt.onrender.com/items')
-        .then(response => response.json())
-        .then(data => {
-          // console.log(data)
-          setData(data)
-          setLoading(false)
-        })
+    const fetchItemsData = async () => {
+      try {
+        const response = await getAllItemsService()
+        if (response.status === 200) {
+          setItemList(response.data)
+        }
+      } catch (error) {
+        console.log('Ocurrio un error en Home', error)
+      }
     }
-  }, [loading])
+    fetchItemsData()
+  }, [])
 
-  if (loading) {
-    return (
-      <>
-        <p>Loading...</p>
-      </>
-    )
-  } else {
-    return (
-      <>
-        <h1 className='title-principal'>List of items</h1>
-        <div className='container-fluid mt-5'>
-          <div className='row'>
-            {data.map((item, index) => {
-              return (
-                <div className='col cardHover' key={index}>
-                  <CardItem key={index} name={item.product_name} image={item.image} description={item.description} price={item.price} />
-                </div>
-              )
-            })}
+  return (
+    <>
+      <h1>List of items</h1>
+      <div className='d-flex flex-row flex-wrap justify-content-center'>
+        {/* Si itemsData no esta vacio, recorro el arreglo con Map y creo un Card de Bootstrap para cada elemento */}
+        {itemsList && itemsList.map((product) => (
+          <div className='card' style={{ width: '18rem' }} key={product.id}>
+            <img className='card-img-top' style={{ maxHeight: '300px' }} src={product.image} alt={product.product_name} />
+            <div className='card-body'>
+              <h5 className='card-title'>{product.product_name}</h5>
+              <p className='card-text'>{product.description}</p>
+              {/* Aqui no se implementa el botón, pero basta con sustituir "a" por Link de react-router-dom y la ruta del enlace indicar el componente que mostrará la información de un solo producto, seguido del id del producto */}
+              <a href='#' className='btn btn-primary'>Comprar</a>
+            </div>
           </div>
-        </div>
-      </>
-    )
-  }
+        ))}
+      </div>
+    </>
+  )
 }
 
 export default Home
